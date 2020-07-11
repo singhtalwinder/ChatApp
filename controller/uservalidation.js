@@ -1,7 +1,7 @@
 import Joi from "@hapi/joi";
 
 export default {
-	createUser: (data) => {
+	signup: (data) => {
 		const schema = Joi.object({
 			fname: Joi.string().min(1).max(20).required(),
 			lname: Joi.string().min(1).max(20).required(),

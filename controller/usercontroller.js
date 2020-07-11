@@ -3,9 +3,9 @@ import user from "../model/user";
 import userValidation from "./uservalidation";
 
 export default {
-	createUser: async (req, res) => {
+	signup: async (req, res) => {
 		const { fname, lname, email, password, confirmPassword } = req.body;
-		const { error } = userValidation.createUser(req.body);
+		const { error } = userValidation.signup(req.body);
 		if (error) return res.status(406).send(error.details[0].message);
 		if (password !== confirmPassword) {
 			return res
