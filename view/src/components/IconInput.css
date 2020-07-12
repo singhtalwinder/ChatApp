@@ -1,0 +1,32 @@
+.icon-input {
+	border: 2px solid #0084ff;
+	border-radius: 20px;
+	padding: 5px;
+	display: flex;
+	font-weight: normal;
+	font-size: 20px;
+	width: 100%;
+	color: #0084ff;
+}
+
+.icon-input span {
+	flex: 1 1;
+}
+
+.icon-input span:first-child {
+	margin-right: 5px;
+}
+
+.icon-input span:last-child {
+	margin-left: 5px;
+}
+
+.icon-input input {
+	outline: none;
+	border: none;
+	flex: 70 1;
+}
+
+.icon-input input:focus {
+	outline: none;
+}
