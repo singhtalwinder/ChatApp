@@ -1,6 +1,12 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	Redirect,
+} from "react-router-dom";
 import SignIn from "../src/components/SignIn";
+import Dashboard from "./components/Dashboard";
 
 function App() {
 	return (
@@ -8,9 +14,25 @@ function App() {
 			<Router>
 				<Switch>
 					<Route exact path="/" component={SignIn} />
+					<ProtectedRoute exact path="/dashboard" component={Dashboard} />
 				</Switch>
 			</Router>
 		</React.Fragment>
+	);
+}
+
+function ProtectedRoute({ component: Component, ...rest }) {
+	if (!localStorage.getItem("auth-token")) {
+		return <Redirect to="/" />;
+	}
+
+	return (
+		<Route
+			{...rest}
+			render={(props) => {
+				return <Component {...props} />;
+			}}
+		/>
 	);
 }
 
