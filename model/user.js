@@ -19,10 +19,29 @@ export default {
 
 	createUser: (con, fname, lname, email, password) => {
 		return new Promise((resolve, reject) => {
+			con.query(`SELECT MAX(userId) as maxId from user`, (err, result) => {
+				if (err) reject(err);
+				let userId = 1;
+				if (result) userId = result[0].maxId + 1;
+				con.query(
+					`INSERT INTO user (userId, fname, lname, email, password) 
+					 VALUES 
+					 (${userId}, "${fname}", "${lname}", "${email}", "${password}")`,
+					(err, result) => {
+						if (err) return reject(err);
+						resolve(result);
+					}
+				);
+			});
+		});
+	},
+
+	createSocialUser: (con, userId, fname, lname, email, password) => {
+		return new Promise((resolve, reject) => {
 			con.query(
-				`INSERT INTO user (fname, lname, email, password) 
+				`INSERT INTO user (userId, fname, lname, email, password) 
                  VALUES 
-                 ("${fname}", "${lname}", "${email}", "${password}")`,
+                 (${userId}, "${fname}", "${lname}", "${email}", "${password}")`,
 				(err, result) => {
 					if (err) return reject(err);
 					resolve(result);
