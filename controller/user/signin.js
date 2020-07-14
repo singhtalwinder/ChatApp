@@ -23,10 +23,12 @@ export default async (req, res) => {
 				userId: result[0].userId,
 			},
 			process.env.AUTH_TOKEN_SECRET,
-			{ expiresIn: "1d" }
+			{ expiresIn: process.env.AUTH_TOKEN_EXPIRATION }
 		);
 
 		return res.status(200).send({
+			fname: result[0].fname,
+			lname: result[0].lname,
 			authToken,
 		});
 	} catch (err) {
