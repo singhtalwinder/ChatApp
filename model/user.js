@@ -19,20 +19,24 @@ export default {
 
 	createUser: (con, fname, lname, email, password) => {
 		return new Promise((resolve, reject) => {
-			con.query(`SELECT MAX(userId) as maxId from user`, (err, result) => {
-				if (err) reject(err);
-				let userId = 1;
-				if (result) userId = result[0].maxId + 1;
-				con.query(
-					`INSERT INTO user (userId, fname, lname, email, password) 
+			con.query(
+				`SELECT MAX(userId) as maxId from 
+				(SELECT * FROM user WHERE userId < 1000000) AS user2`,
+				(err, result) => {
+					if (err) reject(err);
+					let userId = 1;
+					if (result) userId = result[0].maxId + 1;
+					con.query(
+						`INSERT INTO user (userId, fname, lname, email, password) 
 					 VALUES 
 					 (${userId}, "${fname}", "${lname}", "${email}", "${password}")`,
-					(err, result) => {
-						if (err) return reject(err);
-						resolve(result);
-					}
-				);
-			});
+						(err, result) => {
+							if (err) return reject(err);
+							resolve(result);
+						}
+					);
+				}
+			);
 		});
 	},
 
