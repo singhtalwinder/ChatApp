@@ -100,15 +100,11 @@ function SignIn(props) {
 			<div className="seperator">
 				<b>or</b>
 			</div>
-			<p>Sign in with your social media account</p>
-			<div className="social-icon">
-				<button type="button" id="google-btn">
-					<i className="fa fa-google"></i>
-				</button>
-				<button type="button">
-					<i className="fa fa-facebook"></i>
-				</button>
-			</div>
+
+			<button type="button" id="google-btn">
+				<img src="https://img.icons8.com/color/42/000000/google-logo.png" />
+				<p>continue with google</p>
+			</button>
 		</form>
 	);
 }

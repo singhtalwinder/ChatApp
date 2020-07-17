@@ -59,25 +59,27 @@
 	margin-top: -15px;
 }
 
-.signin-form p {
-	font-size: 16px;
-	color: #0073ff;
+#google-btn {
+	display: flex;
+	background: white;
+	color: #444;
+	width: 210px;
+	border-radius: 5px;
+	border: thin solid #888;
+	box-shadow: 1px 1px 1px grey;
+	justify-content: space-between;
 }
 
-.signin-form .social-icon button {
-	font-size: 20px;
-	color: white;
-	height: 50px;
-	width: 50px;
-	background: #0073ff;
-	border-radius: 60%;
-	border: none;
-	outline: none;
+#google-btn:hover {
 	cursor: pointer;
 }
 
-.signin-form .social-icon > button {
-	margin-right: 20px;
+#google-btn p {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 14px;
+	font-weight: bold;
+	font-family: "Roboto", sans-serif;
 }
 
 .card {
