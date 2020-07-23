@@ -1,5 +1,9 @@
+.icon-input-wrapper {
+	width: 100%;
+}
+
 .icon-input {
-	border: 2px solid #0084ff;
+	border: 2px solid;
 	border-radius: 20px;
 	padding: 5px;
 	display: flex;
@@ -29,4 +33,10 @@
 
 .icon-input input:focus {
 	outline: none;
+}
+
+.error-box {
+	color: red;
+	margin-left: 20px;
+	margin-top: 2px;
 }
