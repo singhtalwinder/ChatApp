@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import IconInput from "./IconInput";
 import PasswordToggler from "./PasswordToggler";
+import "./SignIn.css";
 
 function SignIn(props) {
 	let auth2;
@@ -70,7 +71,10 @@ function SignIn(props) {
 
 	const redirectToDashboard = (authToken) => {
 		localStorage.setItem("auth-token", authToken);
-		props.history.push("/dashboard");
+		props.history.push({
+			pathname: "/dashboard",
+			auth2,
+		});
 	};
 
 	return (
