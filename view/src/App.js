@@ -6,6 +6,7 @@ import {
 	Redirect,
 } from "react-router-dom";
 import SignIn from "../src/components/SignIn";
+import SignUp from "./components/SignUp";
 import Dashboard from "./components/Dashboard";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
 			<Router>
 				<Switch>
 					<Route exact path="/" component={SignIn} />
+					<Route exact path="/signup" component={SignUp} />
 					<ProtectedRoute exact path="/dashboard" component={Dashboard} />
 				</Switch>
 			</Router>
