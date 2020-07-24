@@ -18,7 +18,7 @@
 	font-weight: normal;
 }
 
-.login-btn {
+.signin-btn {
 	width: 100%;
 	border-radius: 20px;
 	padding: 11px 40px;
@@ -29,7 +29,7 @@
 	outline: none;
 }
 
-.login-btn:active {
+.signin-btn:active {
 	background-color: #0073ff;
 	color: #fff;
 	transition: 0.3s;

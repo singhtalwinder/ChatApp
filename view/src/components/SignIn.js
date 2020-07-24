@@ -106,6 +106,7 @@ function SignIn(props) {
 		localStorage.setItem("auth-token", authToken);
 		props.history.push({
 			pathname: "/dashboard",
+			auth2,
 		});
 	};
 
@@ -131,7 +132,7 @@ function SignIn(props) {
 				errorMessage={passwordError.msg}
 				endIcon={PasswordToggler}
 			/>
-			<button className="login-btn" onClick={handleSignin}>
+			<button className="signin-btn" onClick={handleSignin}>
 				SignIn
 			</button>
 			<Link className="link" to="/signup">
