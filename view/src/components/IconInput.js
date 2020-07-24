@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./IconInput.css";
 
 function IconInput(props) {
-	const [borderColor, setBorderColor] = useState(() => {
+	const [borderColor, setBorderColor] = useState("#0084ff");
+
+	useEffect(() => {
 		if (props.error) {
-			return "red";
+			setBorderColor("red");
+		} else {
+			setBorderColor("#0084ff");
 		}
-		return "#0084ff";
-	});
+	}, [props.error]);
+
 	const handleFocus = () => {
 		setBorderColor("black");
 	};

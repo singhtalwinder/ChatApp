@@ -2,7 +2,6 @@ import React, { Fragment, useEffect } from "react";
 
 const Dashboard = (props) => {
 	const signout = () => {
-		props.location.auth2.signOut();
 		localStorage.clear("auth-token");
 		props.history.push("/");
 	};

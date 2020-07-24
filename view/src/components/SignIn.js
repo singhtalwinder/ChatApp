@@ -50,19 +50,52 @@ function SignIn(props) {
 		password: "",
 	});
 
+	const [emailError, setEmailError] = useState({
+		error: false,
+		msg: "",
+	});
+
+	const [passwordError, setPasswordError] = useState({
+		error: false,
+		msg: "",
+	});
+
 	const handleChange = (event) => {
 		setData({ ...data, [event.target.name]: event.target.value });
 	};
 
 	const handleSignin = async (event) => {
 		event.preventDefault();
-		console.log(data);
+
+		setEmailError({
+			error: false,
+			msg: "",
+		});
+		setPasswordError({
+			error: false,
+			msg: "",
+		});
+
 		try {
 			const response = await axios.post("/api/signin", data);
 			redirectToDashboard(response.data.authToken);
 		} catch (err) {
 			if (err.response) {
-				alert(err.response.data);
+				if (err.response.status === 406) {
+					if (err.response.data.field === "email") {
+						setEmailError({
+							error: true,
+							msg: err.response.data.msg,
+						});
+					} else if (err.response.data.field === "password") {
+						setPasswordError({
+							error: true,
+							msg: err.response.data.msg,
+						});
+					} else {
+						alert(err.response.data.msg);
+					}
+				}
 			} else {
 				alert("Network error");
 			}
@@ -73,7 +106,6 @@ function SignIn(props) {
 		localStorage.setItem("auth-token", authToken);
 		props.history.push({
 			pathname: "/dashboard",
-			auth2,
 		});
 	};
 
@@ -85,6 +117,8 @@ function SignIn(props) {
 				name="email"
 				placeholder="E-mail Address"
 				icon="fa fa-envelope"
+				error={emailError.error}
+				errorMessage={emailError.msg}
 				onChange={handleChange}
 			/>
 			<IconInput
@@ -93,6 +127,8 @@ function SignIn(props) {
 				placeholder="Password"
 				icon="fa fa-lock"
 				onChange={handleChange}
+				error={passwordError.error}
+				errorMessage={passwordError.msg}
 				endIcon={PasswordToggler}
 			/>
 			<button className="login-btn" onClick={handleSignin}>
