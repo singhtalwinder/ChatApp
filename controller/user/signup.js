@@ -5,11 +5,14 @@ import validation from "./validation";
 export default async (req, res) => {
 	const { fname, lname, email, password, confirmPassword } = req.body;
 	const { error } = validation.signup(req.body);
-	if (error) return res.status(406).send(error.details[0].message);
-	if (password !== confirmPassword) {
-		return res
-			.status(406)
-			.send('"Password" and "Confirm Password" fileds must be same');
+	if (error) {
+		if (error.details[0].context.label === "confirmPassword") {
+			error.details[0].message = `Password doesn't match`;
+		}
+		return res.status(406).send({
+			field: error.details[0].context.label,
+			msg: error.details[0].message,
+		});
 	}
 
 	try {
@@ -18,13 +21,16 @@ export default async (req, res) => {
 
 		await user.createUser(req.con, fname, lname, email, hashedPassword);
 
-		return res.status(201).send("User has been created.");
+		return res.status(201).send({ msg: "User has been created." });
 	} catch (err) {
 		if (err.errno === 1062) {
-			return res.status(400).send("User with the same email already exists");
+			return res.status(400).send({
+				field: "email",
+				msg: "User with the same email already exists",
+			});
 		}
 
 		console.log(err);
-		return res.status(500).send("Internal server error");
+		return res.status(500).send({ msg: "Internal server error" });
 	}
 };
