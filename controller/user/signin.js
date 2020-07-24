@@ -6,7 +6,10 @@ export default async (req, res) => {
 	try {
 		const result = await user.getUserByEmail(req.con, req.body.email);
 		if (!result.length) {
-			return res.status(400).send("Wrong e-mail or password.");
+			return res.status(406).send({
+				field: "email",
+				msg: "User with same E-mail doesn't exist",
+			});
 		}
 
 		const validPassword = await bcrypt.compare(
@@ -15,7 +18,10 @@ export default async (req, res) => {
 		);
 
 		if (!validPassword) {
-			return res.status(400).send("Wrong e-mail or password.");
+			return res.status(406).send({
+				field: "password",
+				msg: "Incorrect password",
+			});
 		}
 
 		const authToken = jwt.sign(
@@ -33,6 +39,6 @@ export default async (req, res) => {
 		});
 	} catch (err) {
 		console.log(err);
-		return res.status(500).send("Internal server error");
+		return res.status(500).send({ msg: "Internal server error" });
 	}
 };
