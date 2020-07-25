@@ -1,0 +1,60 @@
+.dashboard-container {
+	display: flex;
+	border: 0.3px solid #e3e1dc;
+	height: 95vh;
+	margin: auto;
+}
+
+@media screen and (min-width: 1200px) {
+	.dashboard-container {
+		width: 60%;
+	}
+}
+
+.online-users {
+	flex: 1 1 auto;
+	border-right: 0.3px solid #e3e1dc;
+	display: flex;
+	flex-flow: column;
+}
+
+.online-users h4 {
+	margin-top: -0px;
+	text-align: center;
+	padding: 5px;
+	border-bottom: 0.3px solid #e3e1dc;
+}
+
+.online-users > div {
+	margin-top: -20px;
+	overflow-y: scroll;
+}
+
+.online-user {
+	padding: 20px;
+}
+
+.online-user:hover {
+	cursor: pointer;
+	background-color: #e3e1dc;
+	border-radius: 20px;
+}
+
+.online-user .initials {
+	background-color: #0084ff;
+	padding: 10px;
+	color: #ffffff;
+	border-radius: 50%;
+}
+
+.online-user .full-name {
+	margin-left: 5px;
+	white-space: nowrap;
+	overflow: hidden;
+	max-width: 120px;
+	text-overflow: ellipsis;
+}
+
+.chat-box {
+	flex: 4 1 auto;
+}
