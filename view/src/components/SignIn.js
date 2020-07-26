@@ -6,44 +6,37 @@ import PasswordToggler from "./PasswordToggler";
 import "./SignIn.css";
 
 function SignIn(props) {
-	let auth2;
-	const initSigninV2 = () => {
-		auth2 = window.gapi.auth2.init({
-			client_id:
-				"644858335314-uvtijjf3l1ttugk12punhmb2aickhc0b.apps.googleusercontent.com",
-			scope: "profile",
-		});
-		attachSignin(document.getElementById("google-btn"));
-	};
-
-	const attachSignin = (element) => {
-		auth2.attachClickHandler(
-			element,
-			{},
-			async (googleUser) => {
-				try {
-					const response = await axios.post("/api/signin-with-google", {
-						token: googleUser.getAuthResponse().id_token,
-					});
-
-					redirectToDashboard(response.data.authToken);
-				} catch (err) {
-					if (err.response) {
-						alert(err.response.data);
-					} else {
-						alert("Network error");
-					}
-				}
-			},
-			(error) => {
-				alert(JSON.stringify(error, undefined, 2));
-			}
-		);
-	};
-
 	useEffect(() => {
-		window.gapi.load("auth2", initSigninV2);
-	}, []);
+		const attachSignin = (element) => {
+			console.log(props.auth2);
+			props.auth2.attachClickHandler(
+				element,
+				{},
+				async (googleUser) => {
+					try {
+						const response = await axios.post("/api/signin-with-google", {
+							token: googleUser.getAuthResponse().id_token,
+						});
+
+						localStorage.setItem("auth-token", response.data.authToken);
+						props.history.push("/dashboard");
+					} catch (err) {
+						console.log(props);
+						console.log(err);
+						if (err.response) {
+							alert(err.response.data);
+						} else {
+							alert("Network error");
+						}
+					}
+				},
+				(error) => {
+					alert(JSON.stringify(error, undefined, 2));
+				}
+			);
+		};
+		attachSignin(document.getElementById("google-btn"));
+	}, [props]);
 
 	const [data, setData] = useState({
 		email: "",
@@ -78,7 +71,8 @@ function SignIn(props) {
 
 		try {
 			const response = await axios.post("/api/signin", data);
-			redirectToDashboard(response.data.authToken);
+			localStorage.setItem("auth-token", response.data.authToken);
+			props.history.push("/dashboard");
 		} catch (err) {
 			if (err.response) {
 				if (err.response.status === 406) {
@@ -100,14 +94,6 @@ function SignIn(props) {
 				alert("Network error");
 			}
 		}
-	};
-
-	const redirectToDashboard = (authToken) => {
-		localStorage.setItem("auth-token", authToken);
-		props.history.push({
-			pathname: "/dashboard",
-			auth2,
-		});
 	};
 
 	return (
@@ -143,7 +129,10 @@ function SignIn(props) {
 			</div>
 
 			<button type="button" id="google-btn">
-				<img src="https://img.icons8.com/color/42/000000/google-logo.png" />
+				<img
+					src="https://img.icons8.com/color/42/000000/google-logo.png"
+					alt="google-logo"
+				/>
 				<p>continue with google</p>
 			</button>
 		</form>
