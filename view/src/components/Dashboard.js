@@ -1,19 +1,19 @@
+<<<<<<< HEAD
 import React, { useEffect } from "react";
 import { onlineUsers } from "./fakeData";
 import "./Dashboard.css";
+=======
+import React, { Fragment } from "react";
+>>>>>>> master
 
 const Dashboard = (props) => {
 	const signout = () => {
-		if (props.location.auth2) {
-			props.location.auth2.signOut();
+		if (props.auth2) {
+			props.auth2.signOut();
 		}
 		localStorage.clear("auth-token");
 		props.history.push("/");
 	};
-
-	useEffect(() => {
-		return signout;
-	}, []);
 
 	return (
 		<div className="dashboard-container">
