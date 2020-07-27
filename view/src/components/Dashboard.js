@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 import React, { useEffect } from "react";
 import { onlineUsers } from "./fakeData";
 import "./Dashboard.css";
-=======
-import React, { Fragment } from "react";
->>>>>>> master
 
 const Dashboard = (props) => {
 	const signout = () => {
@@ -26,9 +22,9 @@ const Dashboard = (props) => {
 								{onlineUser.fname[0].toUpperCase() +
 									onlineUser.lname[0].toUpperCase()}
 							</span>
-							<span className="full-name">
+							<p className="full-name">
 								{onlineUser.fname + " " + onlineUser.lname}
-							</span>
+							</p>
 						</div>
 					))}
 				</div>

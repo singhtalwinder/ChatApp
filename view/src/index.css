@@ -3,6 +3,34 @@
 	font-family: "Roboto", sans-serif;
 }
 
+html {
+	font-size: 1.5vw;
+}
+
+@media screen and (min-width: 700px) {
+	html {
+		font-size: 1.4vw;
+	}
+}
+
+@media screen and (min-width: 1000px) {
+	html {
+		font-size: 1.2vw;
+	}
+}
+
+@media screen and (min-width: 1200px) {
+	html {
+		font-size: 0.8vw;
+	}
+}
+
+@media screen and (min-width: 1400px) {
+	html {
+		font-size: 0.6vw;
+	}
+}
+
 .card {
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 	transition: 0.3s;
