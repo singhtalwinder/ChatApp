@@ -23,7 +23,7 @@
 }
 
 .online-users > div {
-	margin-top: -2.6rem;
+	margin-top: -2rem;
 	height: 85vh;
 	overflow-y: scroll;
 }
@@ -31,7 +31,13 @@
 .online-user {
 	position: relative;
 	padding: 2rem;
+	margin-top: 0.4rem;
 	min-width: 25rem;
+}
+
+.active-user {
+	background-color: #e3e1dc;
+	border-radius: 20px;
 }
 
 .online-user:hover {
@@ -58,7 +64,4 @@
 	position: absolute;
 	top: 0.2rem;
 	left: 7rem;
-}
-
-.chat-box {
 }

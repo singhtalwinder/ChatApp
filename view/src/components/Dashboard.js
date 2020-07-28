@@ -1,14 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import Chatbox from "./Chatbox";
 import { onlineUsers } from "./fakeData";
 import "./Dashboard.css";
 
 const Dashboard = (props) => {
-	const signout = () => {
-		if (props.auth2) {
-			props.auth2.signOut();
+	const [activeUser, setActiveUser] = useState(onlineUsers[0]);
+
+	useEffect(() => {
+		document
+			.getElementsByClassName("online-user")[0]
+			.classList.add("active-user");
+	}, []);
+
+	const toggleUser = (event, onlineUser) => {
+		document
+			.getElementsByClassName("active-user")[0]
+			.classList.remove("active-user");
+		if (event.target.nodeName !== "DIV") {
+			event.target.parentNode.classList.add("active-user");
+		} else {
+			event.target.classList.add("active-user");
 		}
-		localStorage.clear("auth-token");
-		props.history.push("/");
+		setActiveUser(onlineUser);
 	};
 
 	return (
@@ -16,8 +29,14 @@ const Dashboard = (props) => {
 			<div className="online-users">
 				<h4>Online users</h4>
 				<div>
-					{onlineUsers.map((onlineUser) => (
-						<div className="online-user">
+					{onlineUsers.map((onlineUser, index) => (
+						<div
+							className="online-user"
+							key={index}
+							onClick={(event) => {
+								toggleUser(event, onlineUser);
+							}}
+						>
 							<span className="initials">
 								{onlineUser.fname[0].toUpperCase() +
 									onlineUser.lname[0].toUpperCase()}
@@ -29,7 +48,7 @@ const Dashboard = (props) => {
 					))}
 				</div>
 			</div>
-			<div className="chat-box">chat-box</div>
+			<Chatbox {...props} activeUser={activeUser} />
 		</div>
 	);
 };
