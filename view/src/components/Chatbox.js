@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import "./Chatbox.css";
 
 const Chatbox = (props) => {
+	let flag = true;
 	const signout = () => {
 		if (props.auth2) {
 			props.auth2.signOut();
@@ -11,7 +12,28 @@ const Chatbox = (props) => {
 	};
 
 	useEffect(() => {
-		document.getElementById("message-input").select();
+		const messageInput = document.getElementById("message-input");
+		messageInput.select();
+		messageInput.addEventListener("keyup", (event) => {
+			if (event.keyCode === 13) {
+				if (messageInput.value === "") {
+					return;
+				}
+				const messages = document.getElementById("messages");
+				const p = document.createElement("P");
+				if (flag) {
+					p.classList.add("received-message");
+				} else {
+					p.classList.add("sent-message");
+				}
+				flag = !flag;
+				p.textContent = messageInput.value;
+				const main = document.getElementsByClassName("main")[0];
+				main.scrollTop = main.scrollHeight;
+				messages.appendChild(p);
+				messageInput.value = "";
+			}
+		});
 	}, []);
 	return (
 		<div className="chat-box">
@@ -27,7 +49,9 @@ const Chatbox = (props) => {
 				</div>
 				<i className="fa fa-power-off" onClick={signout} />
 			</div>
-			<div className="messages">er</div>
+			<div className="main">
+				<div id="messages"></div>
+			</div>
 			<div className="footer">
 				<input
 					id="message-input"

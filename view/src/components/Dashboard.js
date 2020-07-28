@@ -22,6 +22,11 @@ const Dashboard = (props) => {
 			event.target.classList.add("active-user");
 		}
 		setActiveUser(onlineUser);
+		const chatBoxMain = document.querySelector(".chat-box .main");
+		chatBoxMain.removeChild(chatBoxMain.firstChild);
+		const chatBoxMessages = document.createElement("DIV");
+		chatBoxMessages.id = "messages";
+		chatBoxMain.appendChild(chatBoxMessages);
 	};
 
 	return (
