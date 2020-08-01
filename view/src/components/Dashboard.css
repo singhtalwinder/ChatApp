@@ -22,6 +22,11 @@
 	border-bottom: 0.3px solid #e3e1dc;
 }
 
+.online-users h3 {
+	font-size: 1.7rem;
+	text-align: center;
+}
+
 .online-users > div {
 	margin-top: -2rem;
 	height: 85vh;

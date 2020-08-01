@@ -40,11 +40,13 @@ const Chatbox = (props) => {
 			<div className="header">
 				<div>
 					<span className="initials">
-						{props.activeUser.fname[0].toUpperCase() +
-							props.activeUser.lname[0].toUpperCase()}
+						{props.activeUser &&
+							props.activeUser.fname[0].toUpperCase() +
+								props.activeUser.lname[0].toUpperCase()}
 					</span>
 					<p className="full-name">
-						{props.activeUser.fname + " " + props.activeUser.lname}
+						{props.activeUser &&
+							props.activeUser.fname + " " + props.activeUser.lname}
 					</p>
 				</div>
 				<i className="fa fa-power-off" onClick={signout} />

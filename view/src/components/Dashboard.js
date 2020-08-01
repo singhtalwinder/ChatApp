@@ -7,9 +7,11 @@ const Dashboard = (props) => {
 	const [activeUser, setActiveUser] = useState(onlineUsers[0]);
 
 	useEffect(() => {
-		document
-			.getElementsByClassName("online-user")[0]
-			.classList.add("active-user");
+		if (onlineUsers.length) {
+			document
+				.getElementsByClassName("online-user")[0]
+				.classList.add("active-user");
+		}
 	}, []);
 
 	const toggleUser = (event, onlineUser) => {
@@ -33,24 +35,26 @@ const Dashboard = (props) => {
 		<div className="dashboard-container">
 			<div className="online-users">
 				<h4>Online users</h4>
+				{!onlineUsers.length && <h3>No one is online</h3>}
 				<div>
-					{onlineUsers.map((onlineUser, index) => (
-						<div
-							className="online-user"
-							key={index}
-							onClick={(event) => {
-								toggleUser(event, onlineUser);
-							}}
-						>
-							<span className="initials">
-								{onlineUser.fname[0].toUpperCase() +
-									onlineUser.lname[0].toUpperCase()}
-							</span>
-							<p className="full-name">
-								{onlineUser.fname + " " + onlineUser.lname}
-							</p>
-						</div>
-					))}
+					{onlineUsers.length &&
+						onlineUsers.map((onlineUser, index) => (
+							<div
+								className="online-user"
+								key={index}
+								onClick={(event) => {
+									toggleUser(event, onlineUser);
+								}}
+							>
+								<span className="initials">
+									{onlineUser.fname[0].toUpperCase() +
+										onlineUser.lname[0].toUpperCase()}
+								</span>
+								<p className="full-name">
+									{onlineUser.fname + " " + onlineUser.lname}
+								</p>
+							</div>
+						))}
 				</div>
 			</div>
 			<Chatbox {...props} activeUser={activeUser} />
