@@ -17,6 +17,42 @@ export default {
 		});
 	},
 
+	getOnlineUsers: (con, userId) => {
+		return new Promise((resolve, reject) => {
+			con.query(
+				`SELECT * FROM user WHERE active=TRUE AND userId != ${userId}`,
+				(err, result) => {
+					if (err) return reject(err);
+					resolve(result);
+				}
+			);
+		});
+	},
+
+	markOnline: (con, userId) => {
+		return new Promise((resolve, reject) => {
+			con.query(
+				`UPDATE user SET active=TRUE WHERE userId=${userId}`,
+				(err, result) => {
+					if (err) return reject(err);
+					resolve(result);
+				}
+			);
+		});
+	},
+
+	markOffline: (con, userId) => {
+		return new Promise((resolve, reject) => {
+			con.query(
+				`UPDATE user SET active=FALSE WHERE userId=${userId}`,
+				(err, result) => {
+					if (err) return reject(err);
+					resolve(result);
+				}
+			);
+		});
+	},
+
 	createUser: (con, fname, lname, email, password) => {
 		return new Promise((resolve, reject) => {
 			con.query(

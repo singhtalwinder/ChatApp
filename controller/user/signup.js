@@ -3,7 +3,7 @@ import user from "../../model/user";
 import validation from "./validation";
 
 export default async (req, res) => {
-	const { fname, lname, email, password, confirmPassword } = req.body;
+	const { fname, lname, email, password } = req.body;
 	const { error } = validation.signup(req.body);
 	if (error) {
 		if (error.details[0].context.label === "confirmPassword") {

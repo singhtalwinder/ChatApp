@@ -32,6 +32,8 @@ export default async (req, res) => {
 			{ expiresIn: process.env.AUTH_TOKEN_EXPIRATION }
 		);
 
+		await user.markOnline(req.con, result[0].userId);
+
 		return res.status(200).send({
 			fname: result[0].fname,
 			lname: result[0].lname,

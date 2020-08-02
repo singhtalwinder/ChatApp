@@ -1,14 +1,33 @@
 import React, { useEffect } from "react";
+import axios from "axios";
 import "./Chatbox.css";
 
 const Chatbox = (props) => {
 	let flag = true;
-	const signout = () => {
+	const signout = async () => {
 		if (props.auth2) {
 			props.auth2.signOut();
 		}
-		localStorage.clear("auth-token");
-		props.history.push("/");
+		try {
+			await axios.patch(
+				"/api/signout",
+				{},
+				{
+					headers: {
+						authToken: localStorage.getItem("auth-token"),
+					},
+				}
+			);
+			localStorage.clear("auth-token");
+			props.history.push("/");
+		} catch (err) {
+			console.log(err);
+			if (err.response) {
+				alert(err.response.data);
+			} else {
+				alert("Network error");
+			}
+		}
 	};
 
 	useEffect(() => {
@@ -16,7 +35,7 @@ const Chatbox = (props) => {
 		messageInput.select();
 		messageInput.addEventListener("keyup", (event) => {
 			if (event.keyCode === 13) {
-				if (messageInput.value === "") {
+				if (messageInput.value === "" || !props.activeUsers) {
 					return;
 				}
 				const messages = document.getElementById("messages");

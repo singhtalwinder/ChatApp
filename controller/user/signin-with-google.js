@@ -33,6 +33,8 @@ const signWithGoogle = async (req, res) => {
 			);
 		}
 
+		await user.markOnline(req.con, payload["sub"]);
+
 		res.status(200).send({
 			fname: payload["given_name"],
 			lname: payload["family_name"],

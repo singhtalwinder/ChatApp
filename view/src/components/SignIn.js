@@ -8,7 +8,6 @@ import "./SignIn.css";
 function SignIn(props) {
 	useEffect(() => {
 		const attachSignin = (element) => {
-			console.log(props.auth2);
 			props.auth2.attachClickHandler(
 				element,
 				{},
@@ -19,9 +18,10 @@ function SignIn(props) {
 						});
 
 						localStorage.setItem("auth-token", response.data.authToken);
+						localStorage.setItem("fname", response.data.fname);
+						localStorage.setItem("lname", response.data.lname);
 						props.history.push("/dashboard");
 					} catch (err) {
-						console.log(props);
 						console.log(err);
 						if (err.response) {
 							alert(err.response.data);
@@ -72,6 +72,8 @@ function SignIn(props) {
 		try {
 			const response = await axios.post("/api/signin", data);
 			localStorage.setItem("auth-token", response.data.authToken);
+			localStorage.setItem("fname", response.data.fname);
+			localStorage.setItem("lname", response.data.lname);
 			props.history.push("/dashboard");
 		} catch (err) {
 			if (err.response) {
