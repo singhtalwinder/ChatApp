@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import io from "socket.io-client";
 import IconInput from "./IconInput";
 import PasswordToggler from "./PasswordToggler";
 import "./SignIn.css";
+
+const ENDPOINT = "http://localhost:4000";
+const socket = io(ENDPOINT);
 
 function SignIn(props) {
 	useEffect(() => {
@@ -18,8 +22,13 @@ function SignIn(props) {
 						});
 
 						localStorage.setItem("auth-token", response.data.authToken);
-						localStorage.setItem("fname", response.data.fname);
-						localStorage.setItem("lname", response.data.lname);
+						localStorage.setItem("userId", response.data.userId);
+						socket.emit("send-joined", {
+							authToken: response.data.authToken,
+							fname: response.data.fname,
+							lname: response.data.lname,
+							userId: response.data.userId,
+						});
 						props.history.push("/dashboard");
 					} catch (err) {
 						console.log(err);
@@ -72,8 +81,13 @@ function SignIn(props) {
 		try {
 			const response = await axios.post("/api/signin", data);
 			localStorage.setItem("auth-token", response.data.authToken);
-			localStorage.setItem("fname", response.data.fname);
-			localStorage.setItem("lname", response.data.lname);
+			localStorage.setItem("userId", response.data.userId);
+			socket.emit("send-joined", {
+				authToken: response.data.authToken,
+				fname: response.data.fname,
+				lname: response.data.lname,
+				userId: response.data.userId,
+			});
 			props.history.push("/dashboard");
 		} catch (err) {
 			if (err.response) {

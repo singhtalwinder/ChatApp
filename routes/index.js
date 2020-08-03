@@ -4,7 +4,7 @@ import userController from "../controller/user";
 
 const router = express.Router();
 
-const verifyAuthToken = async (req, res, next) => {
+const verifyAuthToken = (req, res, next) => {
 	try {
 		const verified = jwt.verify(
 			req.headers.authtoken,

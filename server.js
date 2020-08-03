@@ -18,7 +18,9 @@ app.use((req, res, next) => {
 
 app.use("/api/", routes);
 
-io.on("connection", chat);
+io.on("connection", (socket) => {
+	chat(socket, io);
+});
 
 server.listen(process.env.PORT, () => {
 	console.log(`Running http://localhost:${process.env.PORT}`);

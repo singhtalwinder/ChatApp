@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
 import axios from "axios";
+import io from "socket.io-client";
 import "./Chatbox.css";
 
+const ENDPOINT = "http://localhost:4000";
+const socket = io(ENDPOINT);
+
 const Chatbox = (props) => {
-	let flag = true;
 	const signout = async () => {
 		if (props.auth2) {
 			props.auth2.signOut();
@@ -30,30 +33,50 @@ const Chatbox = (props) => {
 		}
 	};
 
+	const addMesssage = (message, className) => {
+		const messages = document.getElementById("messages");
+		const p = document.createElement("P");
+		p.classList.add(className);
+		p.textContent = message;
+		const main = document.getElementsByClassName("main")[0];
+		main.scrollTop = main.scrollHeight;
+		messages.appendChild(p);
+	};
+
+	socket.on("receive-message", (data) => {
+		console.log(data);
+		console.log(localStorage.getItem("userId"));
+		if (
+			props.activeUser &&
+			parseInt(data.from) === parseInt(props.activeUser.userId) &&
+			parseInt(data.for) === parseInt(localStorage.getItem("userId")) &&
+			data.flag
+		) {
+			data.flag = false;
+			addMesssage(data.msg, "received-message");
+		}
+	});
+
 	useEffect(() => {
 		const messageInput = document.getElementById("message-input");
 		messageInput.select();
 		messageInput.addEventListener("keyup", (event) => {
 			if (event.keyCode === 13) {
-				if (messageInput.value === "" || !props.activeUsers) {
+				if (messageInput.value === "" || !props.activeUser) {
 					return;
 				}
-				const messages = document.getElementById("messages");
-				const p = document.createElement("P");
-				if (flag) {
-					p.classList.add("received-message");
-				} else {
-					p.classList.add("sent-message");
-				}
-				flag = !flag;
-				p.textContent = messageInput.value;
-				const main = document.getElementsByClassName("main")[0];
-				main.scrollTop = main.scrollHeight;
-				messages.appendChild(p);
+				socket.emit("send-message", {
+					from: localStorage.getItem("userId"),
+					for: props.activeUser.userId,
+					msg: messageInput.value,
+				});
+
+				addMesssage(messageInput.value, "sent-message");
 				messageInput.value = "";
 			}
 		});
-	}, []);
+	}, [props.activeUser]);
+
 	return (
 		<div className="chat-box">
 			<div className="header">

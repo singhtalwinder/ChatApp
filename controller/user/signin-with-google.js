@@ -36,6 +36,7 @@ const signWithGoogle = async (req, res) => {
 		await user.markOnline(req.con, payload["sub"]);
 
 		res.status(200).send({
+			userId: payload["sub"],
 			fname: payload["given_name"],
 			lname: payload["family_name"],
 			authToken,

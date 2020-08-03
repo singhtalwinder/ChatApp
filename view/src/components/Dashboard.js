@@ -9,12 +9,11 @@ const socket = io(ENDPOINT);
 
 const Dashboard = (props) => {
 	const [onlineUsers, setOnlineUsers] = useState([]);
-	const [activeUser, setActiveUser] = useState(onlineUsers[0]);
+	const [activeUser, setActiveUser] = useState(null);
 
 	useEffect(() => {
 		const getOnlineUsers = async () => {
 			try {
-				console.log(localStorage.getItem("auth-token"));
 				const response = await axios.get("/api/online-users", {
 					headers: {
 						authToken: localStorage.getItem("auth-token"),
@@ -31,12 +30,10 @@ const Dashboard = (props) => {
 		};
 
 		getOnlineUsers();
-
-		// if (onlineUsers.length) {
-		// 	document
-		// 		.getElementsByClassName("online-user")[0]
-		// 		.classList.add("active-user");
-		// }
+		socket.on("receive-joined", (data) => {
+			onlineUsers.push(data);
+			setOnlineUsers([...onlineUsers]);
+		});
 	}, []);
 
 	const toggleUser = (event, onlineUser) => {
@@ -67,7 +64,11 @@ const Dashboard = (props) => {
 				<div>
 					{onlineUsers.length &&
 						onlineUsers.map((onlineUser) => (
-							<User onlineUser={onlineUser} toggleUser={toggleUser} />
+							<User
+								onlineUser={onlineUser}
+								toggleUser={toggleUser}
+								key={onlineUser.userId}
+							/>
 						))}
 				</div>
 			</div>

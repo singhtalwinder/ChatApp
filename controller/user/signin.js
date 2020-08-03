@@ -35,6 +35,7 @@ export default async (req, res) => {
 		await user.markOnline(req.con, result[0].userId);
 
 		return res.status(200).send({
+			userId: result[0].userId,
 			fname: result[0].fname,
 			lname: result[0].lname,
 			authToken,
